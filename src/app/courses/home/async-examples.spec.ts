@@ -2,7 +2,7 @@ import {fakeAsync, flush, flushMicrotasks, tick} from "@angular/core/testing";
 import {of} from "rxjs";
 import {delay, tap} from "rxjs/operators";
 
-fdescribe('async testing examples', () => {
+describe('async testing examples', () => {
   it('Async example with done', (done) => {
     let test = false;
     setTimeout(() => {
@@ -57,7 +57,7 @@ fdescribe('async testing examples', () => {
     expect(counter).toBe(11);
   }));
 
-  fit('Async example with observables', fakeAsync(() => {
+  it('Async example with observables', fakeAsync(() => {
     let test = false;
     const test$ = of(null).pipe(
       delay(1_000),

@@ -1,4 +1,4 @@
-import {fakeAsync, flush, tick} from "@angular/core/testing";
+import {fakeAsync, flush, flushMicrotasks, tick} from "@angular/core/testing";
 
 fdescribe('async testing examples', () => {
   it('Async example with done', (done) => {
@@ -21,7 +21,8 @@ fdescribe('async testing examples', () => {
 
   it('Async example with flush', fakeAsync(() => {
     let test = false;
-    setTimeout(() =>{});
+    setTimeout(() => {
+    });
     setTimeout(() =>
         test = true
       , 1_000);
@@ -29,5 +30,14 @@ fdescribe('async testing examples', () => {
     flush();
     expect(test).toBeTruthy();
 
+  }));
+  it('Async example with Promise', fakeAsync(() => {
+    let test = false;
+    Promise.resolve().then(() => Promise.resolve()
+    ).then(() => {
+      test = true;
+    })
+    flushMicrotasks()
+    expect(test).toBeTruthy();
   }));
 })

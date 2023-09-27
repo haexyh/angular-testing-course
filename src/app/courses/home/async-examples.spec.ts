@@ -14,10 +14,8 @@ describe('async testing examples', () => {
   });
   it('Async example with tick', fakeAsync(() => {
     let test = false;
-    setTimeout(() =>
-        test = true
-      , 1_000);
-    tick(1_000)
+    setTimeout(() => test = true , 1_000);
+    tick(1_000);
     expect(test).toBeTruthy();
   }));
 
@@ -45,14 +43,19 @@ describe('async testing examples', () => {
 
   it('Async example with Promise and setTimeout', fakeAsync(() => {
     let counter = 0;
+    // Add micoTasks
     Promise.resolve().then(() => Promise.resolve()
     ).then(() => {
       counter += 10
+      // Add macroTaks
       setTimeout(() => counter++, 1_000)
     })
+    // Both queue aren't processed
     expect(counter).toBe(0);
+    // Process all promises
     flushMicrotasks()
     expect(counter).toBe(10);
+    // Simulate time
     tick(1_000)
     expect(counter).toBe(11);
   }));

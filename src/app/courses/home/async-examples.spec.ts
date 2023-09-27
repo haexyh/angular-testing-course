@@ -40,4 +40,18 @@ fdescribe('async testing examples', () => {
     flushMicrotasks()
     expect(test).toBeTruthy();
   }));
+
+  fit('Async example with Promise and setTimeout', fakeAsync(() => {
+    let counter = 0;
+    Promise.resolve().then(() => Promise.resolve()
+    ).then(() => {
+      counter+=10
+      setTimeout(() => counter++, 1_000)
+    })
+    expect(counter).toBe(0);
+    flushMicrotasks()
+    expect(counter).toBe(10);
+    tick(1_000)
+    expect(counter).toBe(11);
+  }));
 })
